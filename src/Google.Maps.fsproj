@@ -18,6 +18,7 @@
     <PackageReference Include="WebSharper" Version="4.5.1.304" />    
     <PackageReference Include="WebSharper.FSharp" Version="4.5.1.304" />
     <PackageReference Include="WebSharper.Google.Maps" Version="4.5.0.129" />
+    <PackageReference Include="WebSharper.Google.Maps.MarkerClusterer" Version="4.5.0.129" />
     <PackageReference Include="WebSharper.Html" Version="4.5.0.143" />
   </ItemGroup>
 

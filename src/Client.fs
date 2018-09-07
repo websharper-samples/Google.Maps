@@ -7,6 +7,7 @@ module SamplesInternals =
 
     open WebSharper.JavaScript
     open WebSharper.Google.Maps
+    open WebSharper.Google.Maps.MarkerClusterer
     open WebSharper.Html.Client
     open WebSharper.JQuery
 
@@ -52,6 +53,41 @@ module SamplesInternals =
                     markerOptions.Map <- map
                     new Marker(markerOptions) |> ignore
             ) |> ignore
+
+    let MarkerClusterer() =
+        Sample "Marker clusterer" <| fun map ->
+            let options = MarkerClustererOptions()
+            //options.GridSize <- 60
+            //options.MaxZoom <- 10.0
+            options.ZoomOnClick <- true
+            options.AverageCenter <- true
+            options.MinimumClusterSize <- 3
+            options?imagePath <- "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+            let clusterer = MarkerClusterer(map,[||],options)
+            let guard = ref true
+            let addMarkers () =
+                // bounds is only available in the "bounds_changed" event.
+                let bounds = map.GetBounds()
+                let sw = bounds.GetSouthWest()
+                let ne = bounds.GetNorthEast()
+                let lngSpan = ne.Lng() - sw.Lng()
+                let latSpan = ne.Lat() - sw.Lat()
+                let rnd = Math.Random
+                for i in 1 .. 30 do
+                    let point = new LatLng(sw.Lat() + (latSpan * rnd()),
+                                           sw.Lng() + (lngSpan * rnd()))
+                    let markerOptions = new MarkerOptions(point)
+                    markerOptions.Map <- map
+                    let marker = new Marker(markerOptions)
+                    // add marker to clasterer
+                    clusterer.AddMarker(marker)
+                    |> ignore
+            let tryAddMarkers (_:obj) =
+                if !guard then
+                    guard := false
+                    addMarkers()
+                else ()
+            Event.AddListener(map, "bounds_changed", As tryAddMarkers) |> ignore
 
     let InfoWindow() =
         Sample "Info window" <| fun map ->
@@ -167,6 +203,7 @@ module SamplesInternals =
             SimpleMap ()
             PanTo ()
             RandomMarkers ()
+            MarkerClusterer ()
             InfoWindow ()
             Controls ()
             SimpleDirections ()
