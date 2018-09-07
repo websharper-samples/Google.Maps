@@ -336,7 +336,7 @@ if (!console) {
 (function()
 {
  "use strict";
- var Global,WebSharper,Google,Maps,Tests,SamplesInternals,Obj,Html,Client,Pagelet,Tags,Operators,EventTarget,Node,TagBuilder,google,maps,MVCObject,AttributeBuilder,Attr,Element,Unchecked,Arrays,WindowOrWorkerGlobalScope,SC$1,Text,Operators$1,Object,Implementation,JQueryHtmlProvider,DeprecatedTagBuilder,Attribute,Enumerator,T,event,Math,MapTypeId,TravelMode,DirectionsStatus,IntelliFactory,Runtime,MapTypeControlStyle;
+ var Global,WebSharper,Google,Maps,Tests,SamplesInternals,Obj,Html,Client,Pagelet,Tags,Operators,EventTarget,Node,TagBuilder,google,maps,MVCObject,AttributeBuilder,Attr,Element,Unchecked,Arrays,WindowOrWorkerGlobalScope,SC$1,Text,Operators$1,Object,Implementation,JQueryHtmlProvider,DeprecatedTagBuilder,Attribute,Enumerator,T,event,Math,MapTypeId,TravelMode,DirectionsStatus,IntelliFactory,Runtime;
  Global=self;
  WebSharper=Global.WebSharper=Global.WebSharper||{};
  Google=WebSharper.Google=WebSharper.Google||{};
@@ -378,15 +378,14 @@ if (!console) {
  DirectionsStatus=maps&&maps.DirectionsStatus;
  IntelliFactory=Global.IntelliFactory;
  Runtime=IntelliFactory&&IntelliFactory.Runtime;
- MapTypeControlStyle=maps&&maps.MapTypeControlStyle;
  SamplesInternals.Samples=function()
  {
   var a,a$1;
-  (a=[(a$1=[Tags.Tags().text("Google Maps Samples")],Tags.Tags().NewTag("h1",a$1)),SamplesInternals.SimpleMap(),SamplesInternals.PanTo(),SamplesInternals.RandomMarkers(),SamplesInternals.InfoWindow(),SamplesInternals.Controls(),SamplesInternals.SimpleDirections(),SamplesInternals.DirectionsWithWaypoints(),SamplesInternals.Moon(),SamplesInternals.Weather(),SamplesInternals.SimplePolygon(),SamplesInternals.StreetView(),SamplesInternals.PrimitiveEvent(),SamplesInternals.SimplePolyline()],Tags.Tags().NewTag("div",a)).AppendTo("main");
+  (a=[(a$1=[Tags.Tags().text("Google Maps Samples")],Tags.Tags().NewTag("h1",a$1)),SamplesInternals.SimpleMap(),SamplesInternals.PanTo(),SamplesInternals.RandomMarkers(),SamplesInternals.InfoWindow(),SamplesInternals.Controls(),SamplesInternals.SimpleDirections(),SamplesInternals.DirectionsWithWaypoints(),SamplesInternals.SimplePolygon(),SamplesInternals.PrimitiveEvent(),SamplesInternals.SimplePolyline()],Tags.Tags().NewTag("div",a)).AppendTo("main");
  };
  SamplesInternals.SimpleMap=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Simple map",function(map)
   {
    map.setOptions({
     center:new maps.LatLng(-34.397,150.644),
@@ -396,7 +395,7 @@ if (!console) {
  };
  SamplesInternals.PanTo=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Pan after timeout",function(map)
   {
    map.setOptions({
     center:new maps.LatLng(37.4419,-122.1419),
@@ -410,7 +409,7 @@ if (!console) {
  };
  SamplesInternals.RandomMarkers=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Random markers",function(map)
   {
    event.addListener(map,"bounds_changed",function()
    {
@@ -433,7 +432,7 @@ if (!console) {
  };
  SamplesInternals.InfoWindow=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Info window",function(map)
   {
    var center,a;
    center=map.getCenter();
@@ -445,7 +444,7 @@ if (!console) {
  };
  SamplesInternals.Controls=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Hide default controls",function(map)
   {
    map.setOptions({
     center:new maps.LatLng(37.4419,-122.1419),
@@ -456,7 +455,7 @@ if (!console) {
  };
  SamplesInternals.SimpleDirections=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Simple directions",function(map)
   {
    var directionsService,directionsDisplay,mapDiv,dirPanel,a,_this,a$1;
    directionsService=new maps.DirectionsService();
@@ -484,7 +483,7 @@ if (!console) {
  };
  SamplesInternals.DirectionsWithWaypoints=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Directions with waypoints",function(map)
   {
    var directionsService,directionsDisplay,mapDiv,dirPanel,a,_this,a$1;
    directionsService=new maps.DirectionsService();
@@ -516,85 +515,9 @@ if (!console) {
    });
   });
  };
- SamplesInternals.Moon=function()
- {
-  return SamplesInternals.Sample(function(map)
-  {
-   var center,mapIds,options,r;
-   function getHorizontallyRepeatingTileUrl(coord,zoom,urlfunc)
-   {
-    var x,y,tileRange;
-    x=coord.x;
-    y=coord.y;
-    tileRange=1<<zoom;
-    return y<0||y>=tileRange?null:(x<0||x>=tileRange?x=(x%tileRange+tileRange)%tileRange:void 0,urlfunc([new maps.Point(x,y),zoom]));
-   }
-   new maps.ImageMapType({
-    getTileUrl:Runtime.ThisFunc(function(a,coord,zoom)
-    {
-     return getHorizontallyRepeatingTileUrl(coord,zoom,function(t)
-     {
-      var coord$1,zoom$1,bound;
-      coord$1=t[0];
-      zoom$1=t[1];
-      bound=Math.pow(2,zoom$1);
-      return"http://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/"+Global.String(zoom$1)+"/"+Global.String(coord$1.x)+"/"+(Global.String(bound-coord$1.y-1)+".jpg");
-     });
-    }),
-    tileSize:new maps.Size(256,256),
-    maxZoom:9,
-    minZoom:0,
-    name:"Moon"
-   });
-   center=new maps.LatLng(0,0);
-   mapIds=["Moon"];
-   options=(r={
-    center:center,
-    zoom:0
-   },r.mapTypeId=Arrays.get(mapIds,0),r);
-   options.mapTypeControlOptions={
-    style:MapTypeControlStyle.DROPDOWN_MENU,
-    mapTypeIds:mapIds
-   };
-   map.setOptions(options);
-  });
- };
- SamplesInternals.Weather=function()
- {
-  return SamplesInternals.Sample(function(map)
-  {
-   var images;
-   function getWeatherIcon()
-   {
-    var r;
-    r={};
-    r.url="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/examples/images/"+Arrays.get(images,Operators.toInt(Math.floor(Arrays.length(images)*Math.random())))+".png";
-    return r;
-   }
-   images=["sun","rain","snow","storm"];
-   event.addListener(map,"bounds_changed",function()
-   {
-    var bounds,sw,ne,lngSpan,latSpan,i,$1;
-    function rnd()
-    {
-     return Math.random();
-    }
-    bounds=map.getBounds();
-    sw=bounds.getSouthWest();
-    ne=bounds.getNorthEast();
-    lngSpan=ne.lng()-sw.lng();
-    latSpan=ne.lat()-sw.lat();
-    for(i=1,$1=10;i<=$1;i++)new maps.Marker({
-     position:new maps.LatLng(sw.lat()+latSpan*rnd(),sw.lng()+lngSpan*rnd()),
-     icon:getWeatherIcon(),
-     map:map
-    });
-   });
-  });
- };
  SamplesInternals.SimplePolygon=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Simple polygon",function(map)
   {
    var polygon;
    map.setCenter(new maps.LatLng(37.4419,-122.1419));
@@ -604,48 +527,30 @@ if (!console) {
    polygon.setMap(map);
   });
  };
- SamplesInternals.StreetView=function()
- {
-  return SamplesInternals.Sample(function(map)
-  {
-   var fenwayPark,marker;
-   fenwayPark=new maps.LatLng(42.345573,-71.098623);
-   map.setCenter(fenwayPark);
-   map.setZoom(15);
-   marker=new maps.Marker();
-   marker.setPosition(fenwayPark);
-   marker.setMap(map);
-   map.setOptions({
-    center:fenwayPark,
-    zoom:14,
-    streetViewControl:true
-   });
-  });
- };
  SamplesInternals.PrimitiveEvent=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Simple event handler",function(map)
   {
    event.addListener(map,"click",function()
    {
-    Global.alert("Map Clicked!");
+    return Global.alert("Map Clicked!");
    });
   });
  };
  SamplesInternals.SimplePolyline=function()
  {
-  return SamplesInternals.Sample(function(map)
+  return SamplesInternals.Sample("Simple polyline",function(map)
   {
    new maps.Polyline({
     strokeColor:"#ff0000",
-    path:[new maps.LatLng(37.4419,-122.1419),new maps.LatLng(37.4519,-122.1519)],
+    path:[new maps.LatLng(37.4419,-122.1419),new maps.LatLng(37.5419,-122.2419)],
     map:map
    });
   });
  };
- SamplesInternals.Sample=function(buildMap)
+ SamplesInternals.Sample=function(name,buildMap)
  {
-  var x,a;
+  var a,a$1,x,a$2;
   function f(mapElement)
   {
    var options;
@@ -655,12 +560,11 @@ if (!console) {
    };
    buildMap(new maps.Map(mapElement.get_Body(),options));
   }
-  x=(a=[Attr.Attr().NewAttr("style","padding-bottom:20px; width:500px; height:300px;")],Tags.Tags().NewTag("div",a));
-  (function(w)
+  a=[(a$1=[Tags.Tags().text(name)],Tags.Tags().NewTag("h1",a$1)),(x=(a$2=[Attr.Attr().NewAttr("style","padding-bottom:20px; width:500px; height:300px;")],Tags.Tags().NewTag("div",a$2)),(function(w)
   {
    Operators$1.OnAfterRender(f,w);
-  }(x));
-  return x;
+  }(x),x))];
+  return Tags.Tags().NewTag("div",a);
  };
  Obj=WebSharper.Obj=Runtime.Class({
   Equals:function(obj)
@@ -687,16 +591,6 @@ if (!console) {
  {
   SC$1.$cctor();
   return SC$1.Tags$1;
- };
- Operators.toInt=function(x)
- {
-  var u;
-  u=Operators.toUInt(x);
-  return u>=2147483648?u-4294967296:u;
- };
- Operators.toUInt=function(x)
- {
-  return(x<0?Math.ceil(x):Math.floor(x))>>>0;
  };
  Operators.FailWith=function(msg)
  {
@@ -860,20 +754,6 @@ if (!console) {
   for(i=0,$1=arr.length-1;i<=$1;i++)r[i]=f(arr[i]);
   return r;
  };
- Arrays.get=function(arr,n)
- {
-  Arrays.checkBounds(arr,n);
-  return arr[n];
- };
- Arrays.checkBounds=function(arr,n)
- {
-  if(n<0||n>=arr.length)
-   Operators.FailWith("Index was outside the bounds of the array.");
- };
- Arrays.length=function(arr)
- {
-  return arr.dims===2?arr.length*arr.length:arr.length;
- };
  SC$1.$cctor=function()
  {
   SC$1.$cctor=Global.ignore;
@@ -905,6 +785,20 @@ if (!console) {
    r.apply(w);
    f(w);
   };
+ };
+ Arrays.get=function(arr,n)
+ {
+  Arrays.checkBounds(arr,n);
+  return arr[n];
+ };
+ Arrays.length=function(arr)
+ {
+  return arr.dims===2?arr.length*arr.length:arr.length;
+ };
+ Arrays.checkBounds=function(arr,n)
+ {
+  if(n<0||n>=arr.length)
+   Operators.FailWith("Index was outside the bounds of the array.");
  };
  JQueryHtmlProvider=Implementation.JQueryHtmlProvider=Runtime.Class({
   AppendAttribute:function(node,attr)
